@@ -1,63 +1,63 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// // Copyright (c) FIRST and other WPILib contributors.
+// // Open Source Software; you can modify and/or share it under the terms of
+// // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.MechCommands;
+// package frc.robot.commands.MechCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.Constants;
+// import frc.robot.Constants;
 
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.ClimbDeployer;
+// import frc.robot.subsystems.Climber;
+// import frc.robot.subsystems.ClimbDeployer;
 
-/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class RunClimber extends Command {
-  Climber objClimber;
-  ClimbDeployer objClimbDeployer;
-  boolean bDirection;   // true for out and false for in
-  private double dSpeedDeployer;
-  private double dSpeedWinch;
+// /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+// public class RunClimber extends Command {
+//   Climber objClimber;
+//   ClimbDeployer objClimbDeployer;
+//   boolean bDirection;   // true for out and false for in
+//   private double dSpeedDeployer;
+//   private double dSpeedWinch;
   
-  /** Creates a new RunClimber. */
-  public RunClimber(Climber objClimber_in, ClimbDeployer objClimbDeployer_in, boolean bDirection_in) {
-    objClimber = objClimber_in;
-    objClimbDeployer = objClimbDeployer_in;
-    bDirection = bDirection_in;
+//   /** Creates a new RunClimber. */
+//   public RunClimber(Climber objClimber_in, ClimbDeployer objClimbDeployer_in, boolean bDirection_in) {
+//     objClimber = objClimber_in;
+//     objClimbDeployer = objClimbDeployer_in;
+//     bDirection = bDirection_in;
 
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(objClimber, objClimbDeployer);
-  }
+//     // Use addRequirements() here to declare subsystem dependencies.
+//     addRequirements(objClimber);
+//   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+//   // Called when the command is initially scheduled.
+//   @Override
+//   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (bDirection) {
-      dSpeedDeployer = Constants.Climb.dDeploySpeed;
-      dSpeedWinch = Constants.Climb.dWinchSpeed;
-    }
-    else {
-      dSpeedDeployer = -Constants.Climb.dDeploySpeed;
-      dSpeedWinch = -Constants.Climb.dWinchSpeed;
-    }
-   // objClimbDeployer.runClimbDeployer(dSpeedDeployer);
-    objClimber.runClimber(dSpeedWinch);
-  }
+//   // Called every time the scheduler runs while the command is scheduled.
+//   @Override
+//   public void execute() {
+//     if (bDirection) {
+//       dSpeedDeployer = -Constants.Climb.dDeploySpeed;
+//       dSpeedWinch = Constants.Climb.dWinchSpeed;
+//     }
+//     else {
+//       dSpeedDeployer = Constants.Climb.dDeploySpeed;
+//       dSpeedWinch = -Constants.Climb.dWinchSpeed;
+//     }
+//     objClimbDeployer.runClimbDeployer(dSpeedDeployer);
+//     objClimber.runClimber(dSpeedWinch);
+//   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    objClimbDeployer.stopClimbDeployer();
-    objClimber.stopClimber();
-  }
+//   // Called once the command ends or is interrupted.
+//   @Override
+//   public void end(boolean interrupted) {
+//     objClimbDeployer.stopClimbDeployer();
+//     objClimber.stopClimber();
+//   }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-}
+//   // Returns true when the command should end.
+//   @Override
+//   public boolean isFinished() {
+//     return false;
+//   }
+// }

@@ -5,36 +5,36 @@
 package frc.robot.commands.MechCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralIntake;
+
+import frc.robot.subsystems.GroundIntake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralIntakeRun extends Command {
-  private final CoralIntake objCoralIntake;
-  private final double dSpeed;
-  /** Creates a new CoralIntakeRun. */
-  public CoralIntakeRun(CoralIntake objCoralIntake_in, double dSpeed_in) {
-    objCoralIntake = objCoralIntake_in;
+public class RunGroundIntake extends Command {
+  private GroundIntake objGroundIntake;
+  private double dSpeed;
+  /** Creates a new GroundCoralIn. */
+  public RunGroundIntake(GroundIntake objGroundIntake_in, double dSpeed_in) {
+    objGroundIntake = objGroundIntake_in;
     dSpeed = dSpeed_in;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(objCoralIntake);
+    addRequirements(objGroundIntake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    objCoralIntake.resetCurrentTrip();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    objCoralIntake.runCoralIntake(dSpeed);
+    objGroundIntake.runGroundIntake(dSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objCoralIntake.stopCoralIntake();
+    objGroundIntake.stopGroundIntake();
   }
 
   // Returns true when the command should end.

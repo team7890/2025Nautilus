@@ -19,11 +19,14 @@ public class AlgaeIntakeRun extends Command {
     dSpeed = dSpeed_in;
 
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(objAlgaeIntake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+   objAlgaeIntake.resetCurrentTrip();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

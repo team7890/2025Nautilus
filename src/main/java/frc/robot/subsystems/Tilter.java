@@ -43,6 +43,7 @@ public class Tilter extends SubsystemBase {
  
   private TalonFX objTilterA = new TalonFX(Constants.CANIds.iTilterA, "rio");
   private TalonFX objTilterB = new TalonFX(Constants.CANIds.iTilterB, "rio");
+  private double dTargetPos;
 
   private TalonFXConfiguration objConfigEachMotor;
   private MotionMagicConfigs objMMConfig;
@@ -157,6 +158,7 @@ public class Tilter extends SubsystemBase {
   public void moveToPositionMM(double dTarget){
     objTilterA.setControl(objMMV.withPosition(dTarget).withSlot(0));
     objTilterB.setControl(objMMV.withPosition(-dTarget).withSlot(0));
+    dTargetPos = dTarget;
   }
 
 
@@ -217,6 +219,15 @@ public class Tilter extends SubsystemBase {
   public void resetPos(){
     objTilterA.setPosition(0.0);
     objTilterB.setPosition(0.0);
+  }
+
+  public boolean isAtPos(){
+    if (Math.abs(getTilterAPos() - dTargetPos) < 0.05) {
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
 

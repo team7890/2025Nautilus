@@ -4,71 +4,66 @@
 
 package frc.robot.commands.MechCommands;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Elevator;
+
 import frc.robot.Utilities;
+import frc.robot.subsystems.GroundPivot;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class RunElevator extends Command {
-  private Elevator objElevator;  //do i need to add both of the winches?
+public class RunGroundPivot extends Command {
+  private GroundPivot objGroundPivot;  //do i need to add both of the winches?
   private DoubleSupplier dsJoystick;
   private boolean bIsDefaultCmd;
   private double dTargetPos;
   private double dTargetActive;
   private boolean bDone;
-
-  /** Creates a new RunElevator. */
-
-  public RunElevator(Elevator objElevator_in, DoubleSupplier dsJoystick_in, boolean bIsDefaultCmd_in, double dTargetPos_in) {
-    objElevator = objElevator_in; //do i need to add both of the winches?
+  /** Creates a new RunGroundPivot. */
+  public RunGroundPivot(GroundPivot objGroundPivot_in, DoubleSupplier dsJoystick_in, boolean bIsDefaultCmd_in, double dTargetPos_in) {
+    objGroundPivot = objGroundPivot_in;
     dsJoystick = dsJoystick_in;
     bIsDefaultCmd = bIsDefaultCmd_in;
     dTargetPos = dTargetPos_in;
-
-    addRequirements(objElevator); //do i need to add both of the winches?
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(objGroundPivot);
   }
 
   // Called when the command is initially scheduled.
-  @Override //do i need to add both of the winches?
+  @Override
   public void initialize() {
     if (bIsDefaultCmd) {
-      dTargetActive = objElevator.getLastKownPos();
+      dTargetActive = objGroundPivot.getLastKownPos();
     }
     bDone = false;
-    // System.out.println("Run Elevator Init:  " + dTargetPos);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  @Override  //do i need to add both of the winches?
+  @Override
   public void execute() {
-    if (bIsDefaultCmd) {
+        if (bIsDefaultCmd) {
       if (Math.abs(dsJoystick.getAsDouble()) > 0.02) {
-        dTargetActive = dTargetActive + dsJoystick.getAsDouble() / 20.0;
+        dTargetActive = dTargetActive + dsJoystick.getAsDouble() / 10.0;
       }
      
       dTargetActive = Utilities.limitVariable(0.0, dTargetActive, 30.0);
      // objElevator.moveToPositionCM(dTarget);
-      objElevator.moveToPositionMM(dTargetActive);
+      objGroundPivot.moveToPositionMM(dTargetActive);
      // System.out.println("run elevator execute");
     }
     else {
-      objElevator.moveToPositionMM(dTargetPos);
+      objGroundPivot.moveToPositionMM(dTargetPos);
      
     }
-    SmartDashboard.putNumber("Elevator Target", dTargetActive);
-    bDone = (!bIsDefaultCmd && (Math.abs(objElevator.getWinchAPos() - dTargetPos) < 0.2));
+    SmartDashboard.putNumber("Ground Pivot Target", dTargetActive);
+    bDone = (!bIsDefaultCmd && (Math.abs(objGroundPivot.getGroundPivotPos() - dTargetPos) < 0.2));
   }
 
-
   // Called once the command ends or is interrupted.
-  @Override  //do i need to add both of the winches?
+  @Override
   public void end(boolean interrupted) {
-    objElevator.setLastKnownPos();
+    objGroundPivot.setLastKnownPos();
   }
 
   // Returns true when the command should end.

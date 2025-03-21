@@ -26,9 +26,11 @@ public final class Constants {
     public static final int iTilterB = 24;
     // public static final int iClimber = 6;
     // public static final int iClimberFollower = ;
-    public static final int iClimberWinchA = 27;
-    public static final int iClimberWinchB = 28;
+    // public static final int iClimberWinchA = 27;
+    // public static final int iClimberWinchB = 28;
     public static final int iClimberDeploy = 29;
+    public static final int iGroundIntake = 31;
+    public static final int iGroundPivot = 28;
   }
 
   public static class MechPos{
@@ -37,44 +39,68 @@ public final class Constants {
     public static final double dElevHome = 0.0;
 
     // === algae brage ===
-    public static final double dTiltAlgBarge = 21.0;
+    public static final double dTiltAlgBarge = 23.0;
     public static final double dElevAlgBarge = 28.0;
     
     // === Algae proc ===
-    public static final double dTiltAlgProc = 0.0;
+    public static final double dTiltAlgProc = 2.0;
     public static final double dElevAlgProc = 0.0;
 
     // === Algae load L3 ===
-    public static final double dTiltAlgL3 = 6.9;
+    public static final double dTiltAlgL3 = 8.0;
     public static final double dElevALgL3 = 19.4;
 
     // === Algae load L2 ===
-    public static final double dTiltAlgL2 = 5.4;
+    public static final double dTiltAlgL2 = 6.0;
     public static final double dElevAlgL2 = 6.4;
 
     // === Coral L4 ===
-    public static final double dTiltCorL4 = 26.2;
+    public static final double dTiltCorL4 = 24.2;
     public static final double dElevCorL4 = 28.8;
 
     // === Coral L3 ===
-    public static final double dTiltCorL3 = 26.7;
-    public static final double dElevCorL3 = 4.7;
+    public static final double dTiltCorL3 = 23.2;
+    public static final double dElevCorL3 = 3.0;
 
     // === Coral L2 ===
-    public static final double dTiltCorL2 = 0.0;    //SET NUMBERS
+    public static final double dTiltCorL2 = 20.0;
     public static final double dElevCorL2 = 0.0;
 
     // === Coral L1 ===
-    public static final double dTiltCorL1 = 0.0;    //SET NUMBERS
+    public static final double dTiltCorL1 = -3.0;    //SET NUMBERS
     public static final double dElevCorL1 = 0.0;
 
     // === Coral load ===
     public static final double dTiltCorLoad = -8.0;
     public static final double dElevCorLoad = 0.0;
 
+    // === Algae Driver Station === \\
+    public static final double dTiltDSAlg = 2.0;
+    public static final double dElevDSAlg = 0.0;
+
+    public static final double dGroundPosDown = 23.0;
+    public static final double dGroundPosHome = 0.15; //TODO: FIX THESE NOW PLEASE THANKN YOU
+    public static final double dGroundPosL1 = 5.0;
+
+    public static final double dTiltGroundSafety = 5.0;
+
   }
-  public static class Climb{
-    public static final double dDeploySpeed = 0.15;
-    public static final double dWinchSpeed = 0.15;
+
+  public static class MechSpeeds {
+    
+    
+    public static final double dCoralShoot = -0.25;   // coral shoot OUT
+    public static final double dCoralHold = 0.04;     // coral idle rollers to hold coral in mechanism
+    public static final double dCoralIntake = 0.25;   // coral intake
+    public static final double dGroundIntake = -0.5;   // ground coral IN
+    public static final double dAlgaeShoot = -1.0;    // algae shoot OUT
+    public static final double dAlgaeIntake = 0.5;    // algae intake
+    public static final double dGroundEject = 0.3;   // eject ground coral or score L1
+  
   }
+
+  // public static class Climb{
+  //   public static final double dDeploySpeed = 0.05;
+  //   public static final double dWinchSpeed = 0.4;
+  // }
 }

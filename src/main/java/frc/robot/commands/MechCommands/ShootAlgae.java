@@ -5,36 +5,35 @@
 package frc.robot.commands.MechCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CoralIntake;
+
+import frc.robot.subsystems.AlgaeIntake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CoralIntakeRun extends Command {
-  private final CoralIntake objCoralIntake;
-  private final double dSpeed;
-  /** Creates a new CoralIntakeRun. */
-  public CoralIntakeRun(CoralIntake objCoralIntake_in, double dSpeed_in) {
-    objCoralIntake = objCoralIntake_in;
+public class ShootAlgae extends Command {
+  public AlgaeIntake objAlgaeIntake;
+  public double dSpeed;
+  /** Creates a new ShootAlgae. */
+  public ShootAlgae(AlgaeIntake objAlgaeIntake_in, double dSpeed_in) {
+    objAlgaeIntake = objAlgaeIntake_in;
     dSpeed = dSpeed_in;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(objCoralIntake);
+    addRequirements(objAlgaeIntake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    objCoralIntake.resetCurrentTrip();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    objCoralIntake.runCoralIntake(dSpeed);
+    objAlgaeIntake.ShootAlgae(dSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    objCoralIntake.stopCoralIntake();
+    objAlgaeIntake.stopAlgaeIntake();
   }
 
   // Returns true when the command should end.
