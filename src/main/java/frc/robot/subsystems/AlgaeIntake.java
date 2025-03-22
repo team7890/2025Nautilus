@@ -34,7 +34,8 @@ public class AlgaeIntake extends SubsystemBase {
     objTalonFXConfig.CurrentLimits.SupplyCurrentLimit = 100.0;
     objTalonFXConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
     objTalonFXConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-    objTalonFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = 0.04;
+    objTalonFXConfig.OpenLoopRamps.VoltageOpenLoopRampPeriod = 0.02;
+    objTalonFXConfig.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.02;
     objTalonFXStatusCode = StatusCode.StatusCodeNotInitialized;
     
     for (int i = 1; i < 5; i++) {

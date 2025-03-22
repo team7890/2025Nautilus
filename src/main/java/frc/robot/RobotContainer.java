@@ -187,7 +187,8 @@ public class RobotContainer {
         // === button box joystick up/down runs elevator
         objElevator.setDefaultCommand(new RunElevator(objElevator, () -> objButtonBoxA.getRawAxis(0), true, 0.0));
         // === no button to hold coral
-        objCoralIntake.setDefaultCommand(new RunCommand(()-> objCoralIntake.ShootCoral(Constants.MechSpeeds.dCoralHold), objCoralIntake));
+        // objCoralIntake.setDefaultCommand(new RunCommand(()-> objCoralIntake.ShootCoral(Constants.MechSpeeds.dCoralHold), objCoralIntake));
+        objCoralIntake.setDefaultCommand(new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralHold));
         // === copilot xbox right joystick up/down runs ground pivot
         objGroundPivot.setDefaultCommand(new RunGroundPivot(objGroundPivot, () -> objCoPilotXbox.getRightY(), true, 0.0));
 
@@ -224,9 +225,8 @@ public class RobotContainer {
         objButtonBoxA.button(9).whileTrue(new RunCombinedTiltElev(objTilter, objElevator, 
             MechPos.dTiltCorLoad, MechPos.dElevCorLoad));
         
-        objButtonBoxA.button(11).whileTrue(new RunGroundPivot(objGroundPivot, null, false, 
-            Constants.MechPos.dGroundPosHome));
-        // objButtonBoxA.button(11).whileTrue(new RunCommand(()-> objGroundPivot.runGroundPivot(0.1), objGroundIntake)).onFalse(new RunCommand(()-> objGroundPivot.runGroundPivot(0.0), objGroundPivot));
+        objButtonBoxA.button(10).whileTrue(new CoralIntakeRun(objCoralIntake, Constants.MechSpeeds.dCoralIntake));
+        objButtonBoxA.button(11).whileTrue(new RunGroundPivot(objGroundPivot, null, false, Constants.MechPos.dGroundPosHome));
         // objButtonBoxA.button(12).whileTrue(new RunCommand(()-> objGroundPivot.runGroundPivot(-0.1), objGroundIntake)).onFalse(new RunCommand(()-> objGroundPivot.runGroundPivot(0.0), objGroundPivot));        
 
         objButtonBoxB.button(1).whileTrue(new RunGroundPivot(objGroundPivot, null, false, 

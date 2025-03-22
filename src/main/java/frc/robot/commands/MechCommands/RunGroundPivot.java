@@ -47,7 +47,7 @@ public class RunGroundPivot extends Command {
         dTargetActive = dTargetActive + dsJoystick.getAsDouble() / 10.0;
       }
      
-      dTargetActive = Utilities.limitVariable(0.0, dTargetActive, 30.0);
+      dTargetActive = Utilities.limitVariable(0.0, dTargetActive, 23.5);
      // objElevator.moveToPositionCM(dTarget);
       objGroundPivot.moveToPositionMM(dTargetActive);
      // System.out.println("run elevator execute");

@@ -86,8 +86,8 @@ public class GroundPivot extends SubsystemBase {
     // congigure motion magic
     objMMConfig = objConfigEachMotor.MotionMagic;
     objMMConfig
-      .withMotionMagicCruiseVelocity(RotationsPerSecond.of(50))  //50 (mechanim) rotations per second cruise
-      .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(200)) // take approximatley 0.5 secs to reach max vel
+      .withMotionMagicCruiseVelocity(RotationsPerSecond.of(200))  //50 (mechanim) rotations per second cruise
+      .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(400)) // take approximatley 0.5 secs to reach max vel
       .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(300)); // take approximately 0.1 secs to reach max accel
     
     Slot0Configs objSlot0 = objConfigEachMotor.Slot0;
@@ -95,7 +95,7 @@ public class GroundPivot extends SubsystemBase {
     objSlot0.kS = 0.15; // Add 0.25 V output to overcome static friction
     objSlot0.kV = 0.09; // v1.0- kG+kS =0.3 , result 15 revoluations 4.5 sec , volt to move/rotations/sec .3/(15/4.5) = .09
     objSlot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output, use defult value of 0.01
-    objSlot0.kP = 25.0; // A position error of 0.2 rotations results in 12 V output
+    objSlot0.kP = 40.0; // A position error of 0.2 rotations results in 12 V output
     objSlot0.kI = 0.1; // No output for integrated error
     objSlot0.kD = 0.0; // A velocity error of 1 rps results in 0.5 V output
     //objSlot0.GravityType = GravityTypeValue.Arm_Cosine;

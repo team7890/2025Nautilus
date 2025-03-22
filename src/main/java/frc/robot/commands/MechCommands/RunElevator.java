@@ -51,7 +51,7 @@ public class RunElevator extends Command {
         dTargetActive = dTargetActive + dsJoystick.getAsDouble() / 20.0;
       }
      
-      dTargetActive = Utilities.limitVariable(0.0, dTargetActive, 30.0);
+      dTargetActive = Utilities.limitVariable(0.0, dTargetActive, 33.0);
      // objElevator.moveToPositionCM(dTarget);
       objElevator.moveToPositionMM(dTargetActive);
      // System.out.println("run elevator execute");

@@ -25,6 +25,7 @@ import static edu.wpi.first.units.Units.Second;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
@@ -143,6 +144,10 @@ public class Tilter extends SubsystemBase {
       if (objStatus.isOK()) break;
     }
     
+    // Follower function
+    // These need to be commented out if using motion magic for Tilter B
+    objTilterB.setControl(new Follower(objTilterA.getDeviceID(), true));
+    objTilterA.setSafetyEnabled(true);
 
 
 
@@ -157,7 +162,9 @@ public class Tilter extends SubsystemBase {
 
   public void moveToPositionMM(double dTarget){
     objTilterA.setControl(objMMV.withPosition(dTarget).withSlot(0));
-    objTilterB.setControl(objMMV.withPosition(-dTarget).withSlot(0));
+    // Next line commented out for B following A
+    // Goes with two above lines labeled as follower
+    //objTilterB.setControl(objMMV.withPosition(-dTarget).withSlot(0));
     dTargetPos = dTarget;
   }
 

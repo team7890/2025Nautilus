@@ -30,11 +30,13 @@ public class GroundIntakeSafely extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltHome, Constants.MechPos.dElevHome),
-      new RunGroundPivot(objGroundPivot, null, false, Constants.MechPos.dGroundPosDown),
       new ParallelCommandGroup(
-        new RunGroundIntake(objGroundIntake, Constants.MechSpeeds.dGroundIntake),
-        new CoralIntakeRun(objCoralIntake, Constants.MechSpeeds.dCoralIntake)
+        new CoralIntakeRun(objCoralIntake, Constants.MechSpeeds.dCoralIntake),
+        new SequentialCommandGroup(
+          new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltHome, Constants.MechPos.dElevHome),
+          new RunGroundPivot(objGroundPivot, null, false, Constants.MechPos.dGroundPosDown),
+          new RunGroundIntake(objGroundIntake, Constants.MechSpeeds.dGroundIntake)
+        )
       )
     );
   }

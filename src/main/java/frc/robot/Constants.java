@@ -37,13 +37,14 @@ public final class Constants {
     // === home ===
     public static final double dTiltHome = 0.0;
     public static final double dElevHome = 0.0;
+    public static final double dTiltHandoff = 0.5;
 
     // === algae brage ===
     public static final double dTiltAlgBarge = 23.0;
     public static final double dElevAlgBarge = 28.0;
     
     // === Algae proc ===
-    public static final double dTiltAlgProc = 2.0;
+    public static final double dTiltAlgProc = -2.0;
     public static final double dElevAlgProc = 0.0;
 
     // === Algae load L3 ===
@@ -51,15 +52,15 @@ public final class Constants {
     public static final double dElevALgL3 = 19.4;
 
     // === Algae load L2 ===
-    public static final double dTiltAlgL2 = 6.0;
+    public static final double dTiltAlgL2 = 7.0;  //changed from 6 -> 7 after qual2
     public static final double dElevAlgL2 = 6.4;
 
     // === Coral L4 ===
-    public static final double dTiltCorL4 = 24.2;
-    public static final double dElevCorL4 = 28.8;
+    public static final double dTiltCorL4 = 25.0;
+    public static final double dElevCorL4 = 31.5;
 
     // === Coral L3 ===
-    public static final double dTiltCorL3 = 23.2;
+    public static final double dTiltCorL3 = 25.2;
     public static final double dElevCorL3 = 3.0;
 
     // === Coral L2 ===
@@ -90,7 +91,7 @@ public final class Constants {
     
     
     public static final double dCoralShoot = -0.25;   // coral shoot OUT
-    public static final double dCoralHold = 0.04;     // coral idle rollers to hold coral in mechanism
+    public static final double dCoralHold = 0.055;     // coral idle rollers to hold coral in mechanism
     public static final double dCoralIntake = 0.25;   // coral intake
     public static final double dGroundIntake = -0.5;   // ground coral IN
     public static final double dAlgaeShoot = -1.0;    // algae shoot OUT

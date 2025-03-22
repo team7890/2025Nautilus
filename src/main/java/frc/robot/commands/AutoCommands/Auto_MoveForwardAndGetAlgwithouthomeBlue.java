@@ -6,6 +6,7 @@ package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.AutoCommands.Base_DriveRobotAuto;
@@ -13,9 +14,10 @@ import frc.robot.commands.AutoCommands.Base_DriveRobotAuto;
 import frc.robot.commands.MechCommands.AlgaeIntakeRun;
 import frc.robot.commands.MechCommands.CoralIntakeRun;
 import frc.robot.commands.MechCommands.RunCombinedTiltElev;
-import frc.robot.commands.MechCommands.RunGroundPivot;
-import frc.robot.commands.MechGroupCommands.GroundIntakeSafely;
 import frc.robot.commands.MechCommands.RunGroundIntake;
+import frc.robot.commands.MechCommands.RunGroundPivot;
+import frc.robot.commands.MechCommands.ShootCoral;
+import frc.robot.commands.MechGroupCommands.GroundIntakeSafely;
 import frc.robot.Constants;
 
 import frc.robot.subsystems.Tilter;
@@ -39,28 +41,34 @@ public class Auto_MoveForwardAndGetAlgwithouthomeBlue extends SequentialCommandG
     addCommands(
       //Drives the Robot close to the Reef
       new ParallelCommandGroup(
-        new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, 0.2, 0.0, 0.0),
+        new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, 0.11, 0.0, 0.0),
         // add put intake out and transfer coral to scoring mech
         new GroundIntakeSafely(objTilter, objElevator, objGroundIntake, objGroundPivot, objCoralIntake)
-      ).withTimeout(0.9),
+      ).withTimeout(2.5),
       new ParallelCommandGroup(
         //Runs to L2 Alg position
         new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltAlgL2, Constants.MechPos.dElevAlgL2),
         //Intakes the Alg
         new AlgaeIntakeRun(objAlgaeIntake, Constants.MechSpeeds.dAlgaeIntake),
         //Drives the Robot slowly into the Reef
-        new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, 0.07, 0.0, 0.0)
+        new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, 0.07, 0.0, 0.0),
+        new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralHold)
       ).withTimeout(1.45),
-      //Intakes the Alg for longer time 
-      new AlgaeIntakeRun(objAlgaeIntake, Constants.MechSpeeds.dAlgaeIntake).withTimeout(0.5),
-      //Drives the Robot away and alines to L4 
-      new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.15, -0.1, 0.0).withTimeout(0.37),
-      //Moves Mech to L4 pos
-      new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltCorL4, Constants.MechPos.dElevCorL4),
-      //Drives Robot in to score L4
-      new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, 0.075, 0.0, 0.0).withTimeout(0.6),
+      new ParallelRaceGroup(
+        new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralHold),
+        new SequentialCommandGroup(
+          //Intakes the Alg for longer time 
+          new AlgaeIntakeRun(objAlgaeIntake, Constants.MechSpeeds.dAlgaeIntake).withTimeout(0.5),
+          //Drives the Robot away and alines to L4 
+          new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.15, -0.08, 0.0).withTimeout(0.44),
+          //Moves Mech to L4 pos
+          new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltCorL4, Constants.MechPos.dElevCorL4),
+          //Drives Robot in to score L4
+          new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, 0.075, 0.0, 0.0).withTimeout(0.6)
+        )
+      ),
       //Shoots coral
-      new CoralIntakeRun(objCoralIntake, Constants.MechSpeeds.dCoralShoot).withTimeout(0.45),
+      new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralShoot).withTimeout(0.4),
       //Drives Robot away from Reef 
       // new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.15, -0.1, 0.0).withTimeout(0.5),
       //Moves Mech to home
@@ -69,6 +77,7 @@ public class Auto_MoveForwardAndGetAlgwithouthomeBlue extends SequentialCommandG
       new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.2, -0.2, 0.0).withTimeout(1.57),
       //Moves Mech to Barge pos
       new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltAlgBarge, Constants.MechPos.dElevAlgBarge),
+      //Drives the Robot slowly into Barge
       new ParallelCommandGroup(
         new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.07, 0.0, 0.0),
         //Shoots into Barge
@@ -82,6 +91,6 @@ public class Auto_MoveForwardAndGetAlgwithouthomeBlue extends SequentialCommandG
 
 
 
-      );
+    );
   }
 }
