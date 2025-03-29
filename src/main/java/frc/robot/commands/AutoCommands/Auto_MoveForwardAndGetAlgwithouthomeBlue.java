@@ -14,6 +14,7 @@ import frc.robot.commands.AutoCommands.Base_DriveRobotAuto;
 import frc.robot.commands.MechCommands.AlgaeIntakeRun;
 import frc.robot.commands.MechCommands.CoralIntakeRun;
 import frc.robot.commands.MechCommands.RunCombinedTiltElev;
+import frc.robot.commands.MechCommands.RunCombinedTiltElevEndless;
 import frc.robot.commands.MechCommands.RunGroundIntake;
 import frc.robot.commands.MechCommands.RunGroundPivot;
 import frc.robot.commands.MechCommands.ShootCoral;
@@ -47,13 +48,16 @@ public class Auto_MoveForwardAndGetAlgwithouthomeBlue extends SequentialCommandG
       ).withTimeout(2.5),
       new ParallelCommandGroup(
         //Runs to L2 Alg position
-        new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltAlgL2, Constants.MechPos.dElevAlgL2),
+        new RunCombinedTiltElevEndless(objTilter, objElevator, Constants.MechPos.dTiltAlgL2, Constants.MechPos.dElevAlgL2),
         //Intakes the Alg
         new AlgaeIntakeRun(objAlgaeIntake, Constants.MechSpeeds.dAlgaeIntake),
         //Drives the Robot slowly into the Reef
         new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, 0.07, 0.0, 0.0),
         new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralHold)
-      ).withTimeout(1.45),
+      ).withTimeout(1.45), 
+
+      //new AlgaeIntakeRun(objAlgaeIntake, Constants.MechSpeeds.dAlgaeIntake).withTimeout(0.25),
+
       new ParallelRaceGroup(
         new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralHold),
         new SequentialCommandGroup(
@@ -73,6 +77,7 @@ public class Auto_MoveForwardAndGetAlgwithouthomeBlue extends SequentialCommandG
       // new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.15, -0.1, 0.0).withTimeout(0.5),
       //Moves Mech to home
       // new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltHome, Constants.MechPos.dElevHome),
+
       //Drives towards the barge 
       new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.2, -0.2, 0.0).withTimeout(1.57),
       //Moves Mech to Barge pos

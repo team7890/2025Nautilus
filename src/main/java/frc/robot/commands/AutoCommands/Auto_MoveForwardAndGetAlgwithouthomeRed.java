@@ -14,6 +14,7 @@ import frc.robot.commands.AutoCommands.Base_DriveRobotAuto;
 import frc.robot.commands.MechCommands.AlgaeIntakeRun;
 import frc.robot.commands.MechCommands.CoralIntakeRun;
 import frc.robot.commands.MechCommands.RunCombinedTiltElev;
+import frc.robot.commands.MechCommands.RunCombinedTiltElevEndless;
 import frc.robot.commands.MechCommands.RunGroundIntake;
 import frc.robot.commands.MechCommands.RunGroundPivot;
 import frc.robot.commands.MechCommands.ShootCoral;
@@ -47,9 +48,9 @@ public class Auto_MoveForwardAndGetAlgwithouthomeRed extends SequentialCommandGr
       ).withTimeout(2.5),
       new ParallelCommandGroup(
         //Runs to L2 Alg position
-        new RunCombinedTiltElev(objTilter, objElevator, Constants.MechPos.dTiltAlgL2, Constants.MechPos.dElevAlgL2),
+        new RunCombinedTiltElevEndless(objTilter, objElevator, Constants.MechPos.dTiltAlgL2, Constants.MechPos.dElevAlgL2),
         //Intakes the Alg
-        new AlgaeIntakeRun(objAlgaeIntake, Constants.MechSpeeds.dAlgaeIntake),
+        new AlgaeIntakeRun(objAlgaeIntake, Constants.MechSpeeds.dAlgaeIntake ),
         //Drives the Robot slowly into the Reef
         new Base_DriveRobotAuto(objDriveTrain, dMaxSpeed, dMaxAngularRate, -0.07, 0.0, 0.0),
         new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralHold)

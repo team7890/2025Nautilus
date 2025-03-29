@@ -58,6 +58,8 @@ public class Tilter extends SubsystemBase {
 
 
 
+
+
   /** Creates a new Tilter. */
   public Tilter() {
     // === configs for each motor individually ===
@@ -147,7 +149,10 @@ public class Tilter extends SubsystemBase {
     // Follower function
     // These need to be commented out if using motion magic for Tilter B
     objTilterB.setControl(new Follower(objTilterA.getDeviceID(), true));
-    objTilterA.setSafetyEnabled(true);
+    // objTilterA.setSafetyEnabled(true);
+  
+    this.resetPos();
+
 
 
 
@@ -158,6 +163,8 @@ public class Tilter extends SubsystemBase {
     SmartDashboard.putNumber("Tilter A Position", getTilterAPos());
 
     SmartDashboard.putNumber("Tilter B Position", getTilterBPos());
+
+  
   }
 
   public void moveToPositionMM(double dTarget){

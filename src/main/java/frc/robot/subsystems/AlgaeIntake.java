@@ -22,7 +22,7 @@ public class AlgaeIntake extends SubsystemBase {
   private StatusSignal objStatSig;
   private double dCurrentNow, dCurrentMax = 0.0;
   private boolean bCurrentTripped = false, bInrushDone = false;
-  private int iCount = 0;
+  private int iCount = 0, iTripCount = 0;
   private double dCurrMaxInrush = 0.0, dCurrentAvg = 0.0;
 
 
@@ -78,7 +78,14 @@ public class AlgaeIntake extends SubsystemBase {
       }
 
       if (bCurrentTripped) {
-        objAlgaeIntake.set(Math.signum(dSpeed) * 0.05);  
+        iTripCount = iTripCount + 1;
+        if (iTripCount > 7) {
+          objAlgaeIntake.set(Math.signum(dSpeed) * 0.05); 
+        }
+        else {
+          objAlgaeIntake.set(dSpeed);
+        }
+         
       }
       else {
         objAlgaeIntake.set(dSpeed);
@@ -100,6 +107,7 @@ public class AlgaeIntake extends SubsystemBase {
     bInrushDone = false;
     dCurrentMax = 0.0;
     dCurrMaxInrush = 0.0;
+    iTripCount = 0;
   }
   public void ShootAlgae(double dSpeed){
     objAlgaeIntake.set(dSpeed);

@@ -137,7 +137,9 @@ public class GroundPivot extends SubsystemBase {
    // objConfigEachMotor.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     // apply configs for each motor individually
-    }
+
+    this.resetPos();
+  }
     
 
   @Override
