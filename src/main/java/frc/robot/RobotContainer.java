@@ -37,6 +37,7 @@ import frc.robot.commands.MechCommands.RunElevator;
 import frc.robot.commands.MechCommands.RunGroundPivot;
 import frc.robot.commands.TeleOpDrive;
 import frc.robot.commands.MechCommands.AlgaeIntakeRun;
+import frc.robot.commands.MechCommands.BreadBargeShot;
 import frc.robot.commands.MechCommands.CoralIntakeRun;
 import frc.robot.commands.MechCommands.RunGroundIntake;
 import frc.robot.commands.MechCommands.RunTilter;
@@ -45,6 +46,8 @@ import frc.robot.commands.MechCommands.ShootCoral;
 // import frc.robot.commands.MechCommands.RunClimber;
 import frc.robot.commands.MechCommands.RunCombinedTiltElev;
 import frc.robot.commands.MechCommands.ResetTilter;
+import frc.robot.commands.MechCommands.RunAlgTilterWithIntakeL2;
+import frc.robot.commands.MechCommands.RunAlgTilterWithIntakeL3;
 import frc.robot.commands.MechCommands.RunGroundPivot;
 import frc.robot.commands.MechGroupCommands.GroundIntakeSafely;
 import frc.robot.commands.MechGroupCommands.PositionForCoralL1;
@@ -195,7 +198,7 @@ public class RobotContainer {
         // === driver Y is shoot Algae ===
         objDriverXbox.y().whileTrue(new ShootAlgae(objAlgaeIntake, Constants.MechSpeeds.dAlgaeShoot)); //OUT
         // === driver A is to do a barge shot (tilt up and shoot to give algae more velocity up)
-        objDriverXbox.a().whileTrue(new BargeShoot(objTilter, objAlgaeIntake));
+        objDriverXbox.a().whileTrue(new BreadBargeShot(objTilter, objElevator, objAlgaeIntake));
         // === driver X is shoot Coral ===
         objDriverXbox.x().whileTrue(new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralShoot)); //OUT
         // === driver LEFT BUMPER is slow mode ===
@@ -210,10 +213,10 @@ public class RobotContainer {
             MechPos.dTiltAlgBarge, MechPos.dElevAlgBarge));
         objButtonBoxA.button(2).whileTrue(new RunCombinedTiltElev(objTilter, objElevator, 
             MechPos.dTiltAlgProc, MechPos.dElevAlgProc));
-        objButtonBoxA.button(3).whileTrue(new RunCombinedTiltElev(objTilter, objElevator, 
-            MechPos.dTiltAlgL3, MechPos.dElevALgL3));
-        objButtonBoxA.button(4).whileTrue(new RunCombinedTiltElev(objTilter, objElevator, 
-            MechPos.dTiltAlgL2, MechPos.dElevAlgL2));
+        objButtonBoxA.button(3).whileTrue(new RunAlgTilterWithIntakeL3(objTilter, objElevator, objAlgaeIntake));
+        // objButtonBoxA.button(4).whileTrue(new RunCombinedTiltElev(objTilter, objElevator, 
+        //     MechPos.dTiltAlgL2, MechPos.dElevAlgL2));
+            objButtonBoxA.button(4).whileTrue(new RunAlgTilterWithIntakeL2(objTilter, objElevator, objAlgaeIntake));
         objButtonBoxA.button(5).whileTrue(new RunCombinedTiltElev(objTilter, objElevator, 
             MechPos.dTiltCorL4, MechPos.dElevCorL4));
         objButtonBoxA.button(6).whileTrue(new RunCombinedTiltElev(objTilter, objElevator, 
@@ -270,7 +273,7 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // return Commands.print("No autonomous command configured");
         /* Run the path selected from the auto chooser */
-        // return autoChooser.getSelected();
+        // return autoChooser.getSelected();\
         return objChooser.getSelected();
     }
 }

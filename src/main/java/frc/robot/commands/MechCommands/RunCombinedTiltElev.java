@@ -7,6 +7,7 @@ package frc.robot.commands.MechCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.Tilter;
+import frc.robot.subsystems.AlgaeIntake;
 import frc.robot.subsystems.Elevator;
 import frc.robot.Utilities;
 
@@ -22,7 +23,7 @@ public class RunCombinedTiltElev extends Command {
   private double dElevLastKnownPos;
 
   /** Creates a new RunCombinedTiltElev. */
-  public RunCombinedTiltElev(Tilter objTilter_in, Elevator objElevator_in, double dTargetTilt_in, double dTargetElev_in) {
+  public RunCombinedTiltElev(Tilter objTilter_in, Elevator objElevator_in, double dTargetTilt_in, double dTargetElev_in) {  //added alg intake
     objTilter = objTilter_in;
     objElevator = objElevator_in;
     dTargetTilt = dTargetTilt_in;

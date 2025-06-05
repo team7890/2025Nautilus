@@ -56,7 +56,7 @@ public final class Constants {
     public static final double dElevAlgL2 = 6.4;
 
     // === Coral L4 ===
-    public static final double dTiltCorL4 = 25.0;
+    public static final double dTiltCorL4 = 25.5;
     public static final double dElevCorL4 = 31.5;
 
     // === Coral L3 ===
@@ -80,7 +80,7 @@ public final class Constants {
     public static final double dElevDSAlg = 0.0;
 
     public static final double dGroundPosDown = 23.0;
-    public static final double dGroundPosHome = 0.15; //TODO: FIX THESE NOW PLEASE THANKN YOU
+    public static final double dGroundPosHome = 0.15;
     public static final double dGroundPosL1 = 5.0;
 
     public static final double dTiltGroundSafety = 5.0;
@@ -95,7 +95,7 @@ public final class Constants {
     public static final double dCoralIntake = 0.25;   // coral intake
     public static final double dGroundIntake = -0.5;   // ground coral IN
     public static final double dAlgaeShoot = -1.0;    // algae shoot OUT
-    public static final double dAlgaeIntake = 0.75;    // algae intake
+    public static final double dAlgaeIntake = 0.5;    // algae intake
     public static final double dGroundEject = 0.3;   // eject ground coral or score L1
   
   }

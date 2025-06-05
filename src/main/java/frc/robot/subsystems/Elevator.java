@@ -54,6 +54,8 @@ public class Elevator extends SubsystemBase {
   private int iPrintCount = 0;
   
   private double dPosition, dError, dControl, dkp, dki, dSum;
+  private double dCurrent = objWinchA.getStatorCurrent().getValueAsDouble();
+  private double dMaxCurrent = 0.0;
 
   private double dLastKnownPos;
 
@@ -84,18 +86,18 @@ public class Elevator extends SubsystemBase {
 
     
     // congigure motion magic
-    objMMConfig = objConfigEachMotor.MotionMagic;
+    objMMConfig = new MotionMagicConfigs();
     objMMConfig
-      .withMotionMagicCruiseVelocity(RotationsPerSecond.of(50))  //50 (mechanim) rotations per second cruise  // === DEFAULT = 5 === \\  50 -> 55 -> 60 - > 70
-      .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(200)) // take approximatley 0.5 secs to reach max vel  // === DEFAULT = 10 === \\
-      .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(300)); // take approximately 0.1 secs to reach max accel // === DEFAULT = 100 === \\
+      .withMotionMagicCruiseVelocity(RotationsPerSecond.of(80))  //50 (mechanim) rotations per second cruise  // === DEFAULT = 5 === \\  50 -> 55 -> 60 - > 70 ->75
+      .withMotionMagicAcceleration(RotationsPerSecondPerSecond.of(100)) // take approximatley 0.5 secs to reach max vel  // === DEFAULT = 10 === \\
+      .withMotionMagicJerk(RotationsPerSecondPerSecond.per(Second).of(400)); // take approximately 0.1 secs to reach max accel // === DEFAULT = 100 === \\
     
-    Slot0Configs objSlot0 = objConfigEachMotor.Slot0;
+    Slot0Configs objSlot0 = new Slot0Configs();
     objSlot0.kG = 0.55;
     objSlot0.kS = 0.15; // Add 0.25 V output to overcome static friction
     objSlot0.kV = 0.09; // v1.0- kG+kS =0.3 , result 15 revoluations 4.5 sec , volt to move/rotations/sec .3/(15/4.5) = .09
     objSlot0.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output, use defult value of 0.01
-    objSlot0.kP = 25.0; // A position error of 0.2 rotations results in 12 V output  //TODO Changing from 25 to 26 - > 28 -> 30
+    objSlot0.kP = 30.0; // A position error of 0.2 rotations results in 12 V output  //TODO Changing from 25 to 26 - > 28 -> 30
     objSlot0.kI = 0.3; // No output for integrated error
     objSlot0.kD = 0.0; // A velocity error of 1 rps results in 0.5 V output
     objSlot0.GravityType = GravityTypeValue.Elevator_Static;
@@ -124,6 +126,9 @@ public class Elevator extends SubsystemBase {
     objConfigEachMotor.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 33.0;
     objConfigEachMotor.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0.0;
 
+    objConfigEachMotor.MotionMagic = objMMConfig;
+    objConfigEachMotor.Slot0 = objSlot0;
+
     objStatus = StatusCode.StatusCodeNotInitialized;
     // apply configs for each motor individually
     for (int i = 1; i < 5; i++) {
@@ -138,6 +143,8 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Elevator Position", getWinchAPos());
+    SmartDashboard.putNumber("Elevator Current", getWinchCurrent());
+    SmartDashboard.putNumber("Max Elev Current", getMaxCurrent());
   }
 
   public void moveToPositionMM(double dTarget){
@@ -158,6 +165,18 @@ public class Elevator extends SubsystemBase {
   public double getWinchAVel(){
     objStatSigA = objWinchA.getVelocity();
     return objStatSigA.getValueAsDouble();
+  }
+
+  public double getWinchCurrent(){
+    objStatSigA = objWinchA.getStatorCurrent();
+    return objStatSigA.getValueAsDouble();
+  }
+
+  public double getMaxCurrent(){
+    if (dCurrent > dMaxCurrent) {
+      dCurrent = dMaxCurrent;
+    }
+    return dMaxCurrent;
   }
 
   // public double getWinchBVel(){
@@ -206,6 +225,10 @@ public class Elevator extends SubsystemBase {
 
   public void resetPos() {
     objWinchA.setPosition(0.0);
+  }
+
+  public void resetCurrent(){
+    dMaxCurrent = 0.0;
   }
 
 }

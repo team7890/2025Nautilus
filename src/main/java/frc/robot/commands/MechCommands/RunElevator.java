@@ -36,6 +36,7 @@ public class RunElevator extends Command {
   // Called when the command is initially scheduled.
   @Override //do i need to add both of the winches?
   public void initialize() {
+    objElevator.resetCurrent();
     if (bIsDefaultCmd) {
       dTargetActive = objElevator.getLastKownPos();
     }
