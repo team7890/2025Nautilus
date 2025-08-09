@@ -35,6 +35,7 @@ import frc.robot.Constants.MechSpeeds;
 // === COMMANDS === \\
 import frc.robot.commands.MechCommands.RunElevator;
 import frc.robot.commands.MechCommands.RunGroundPivot;
+import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.TeleOpDrive;
 import frc.robot.commands.MechCommands.AlgaeIntakeRun;
 import frc.robot.commands.MechCommands.BreadBargeShot;
@@ -75,6 +76,7 @@ import frc.robot.subsystems.GroundIntake;
 import frc.robot.subsystems.GroundPivot;
 // import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Tilter;
+import frc.robot.commands.LimelightDrive;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -207,6 +209,9 @@ public class RobotContainer {
                     ()-> -objDriverXbox.getLeftX(), 
                     ()-> -objDriverXbox.getRightX(), 
                 true));
+
+        objDriverXbox.rightBumper().whileTrue(new LimelightDrive(drivetrain, MaxSpeed, MaxAngularRate, 
+                    () -> -objDriverXbox.getLeftX()));
 
 
         // === COPILOT BUTTON BOX commands ===
