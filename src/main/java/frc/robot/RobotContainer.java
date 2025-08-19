@@ -36,6 +36,7 @@ import frc.robot.Constants.MechSpeeds;
 import frc.robot.commands.MechCommands.RunElevator;
 import frc.robot.commands.MechCommands.RunGroundPivot;
 import frc.robot.commands.LimelightDrive;
+import frc.robot.commands.LookAtLime;
 import frc.robot.commands.TeleOpDrive;
 import frc.robot.commands.MechCommands.AlgaeIntakeRun;
 import frc.robot.commands.MechCommands.BreadBargeShot;
@@ -204,7 +205,7 @@ public class RobotContainer {
         // === driver X is shoot Coral ===
         objDriverXbox.x().whileTrue(new ShootCoral(objCoralIntake, Constants.MechSpeeds.dCoralShoot)); //OUT
         // === driver LEFT BUMPER is slow mode ===
-        objDriverXbox.leftBumper().toggleOnFalse(new TeleOpDrive(drivetrain, MaxSpeed, MaxAngularRate,  
+        objDriverXbox.b().toggleOnTrue(new TeleOpDrive(drivetrain, MaxSpeed, MaxAngularRate,  
                     ()-> -objDriverXbox.getLeftY(),
                     ()-> -objDriverXbox.getLeftX(), 
                     ()-> -objDriverXbox.getRightX(), 
@@ -212,6 +213,10 @@ public class RobotContainer {
 
         objDriverXbox.rightBumper().whileTrue(new LimelightDrive(drivetrain, MaxSpeed, MaxAngularRate, 
                     () -> -objDriverXbox.getLeftX()));
+
+        objDriverXbox.leftBumper().whileTrue(new LookAtLime(drivetrain, MaxSpeed, MaxAngularRate, 
+                    () -> objDriverXbox.getLeftX(), 
+                    () -> objDriverXbox.getLeftY()));
 
 
         // === COPILOT BUTTON BOX commands ===

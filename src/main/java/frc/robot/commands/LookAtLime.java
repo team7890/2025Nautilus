@@ -11,7 +11,6 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.Constants;
@@ -20,14 +19,15 @@ import frc.robot.generated.TunerConstants;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class LimelightDrive extends Command {
+public class LookAtLime extends Command {
   private final CommandSwerveDrivetrain objSwerve;
   private final double dMaxSpeed;
   private final double dMaxAngularRate;
  
   private final DoubleSupplier dsDriverLeftX;
+  private final DoubleSupplier dsDriverLeftY;
  
-  private double dCmdLeftX;
+  private double dCmdLeftX, dCmdLeftY;
 
   private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(3);
@@ -60,11 +60,10 @@ public class LimelightDrive extends Command {
   // if your limelight and target are mounted at the same or similar heights, use "ta" (area) for target ranging rather than "ty"
   double limelight_range_proportional()
   {    
-    double kP = 0.1;
-    double targetingForwardSpeed = (Math.abs(12 - LimelightHelpers.getTA("limelight"))) * kP;
+    double kP = .1;
+    double targetingForwardSpeed = LimelightHelpers.getTA("limelight") * kP;
     targetingForwardSpeed *= dMaxSpeed;
     targetingForwardSpeed *= 1.0;
-    SmartDashboard.putNumber("LimeDistanceSpeed", targetingForwardSpeed);
     return targetingForwardSpeed;
   }
 
@@ -76,11 +75,12 @@ public class LimelightDrive extends Command {
   .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors;
 
   /** Creates a new TeleOpDrive. */
-  public LimelightDrive(CommandSwerveDrivetrain objSwerve_in, double dMaxSpeed_in, double dMaxAngularRate_in, DoubleSupplier dsDriverLeftX_in) {
+  public LookAtLime(CommandSwerveDrivetrain objSwerve_in, double dMaxSpeed_in, double dMaxAngularRate_in, DoubleSupplier dsDriverLeftX_in, DoubleSupplier dsDriverLeftY_in) {
     objSwerve = objSwerve_in;
     dMaxSpeed = dMaxSpeed_in;
     dMaxAngularRate = dMaxAngularRate_in;
     dsDriverLeftX = dsDriverLeftX_in;
+    dsDriverLeftY = dsDriverLeftY_in;
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(objSwerve);
@@ -95,11 +95,13 @@ public class LimelightDrive extends Command {
   public void execute() {
 
     dCmdLeftX = dsDriverLeftX.getAsDouble() * dMaxSpeed;
+    dCmdLeftY = dsDriverLeftY.getAsDouble() * dMaxSpeed;
+
 
     // do the get as double here and put value into another variable which you can then put through the util function to do the deadband
     
     objSwerve.setControl(
-          drive.withVelocityX(limelight_range_proportional()).withVelocityY(dCmdLeftX).withRotationalRate(limelight_aim_proportional())
+          drive.withVelocityX(dCmdLeftY).withVelocityY(dCmdLeftX).withRotationalRate(limelight_aim_proportional())
     );
 
     
