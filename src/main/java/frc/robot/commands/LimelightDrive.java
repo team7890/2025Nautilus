@@ -59,13 +59,17 @@ public class LimelightDrive extends Command {
   // this works best if your Limelight's mount height and target mount height are different.
   // if your limelight and target are mounted at the same or similar heights, use "ta" (area) for target ranging rather than "ty"
   double limelight_range_proportional()
-  {    
-    double kP = 0.1;
-    double targetingForwardSpeed = (Math.abs(12 - LimelightHelpers.getTA("limelight"))) * kP;
-    targetingForwardSpeed *= dMaxSpeed;
-    targetingForwardSpeed *= 1.0;
+  {   
+    if (LimelightHelpers.getTV("limelight")) {
+      double kP = 0.1;
+    double targetingForwardSpeed = (12 - LimelightHelpers.getTA("limelight")) * kP;
+    // targetingForwardSpeed *= dMaxSpeed;
     SmartDashboard.putNumber("LimeDistanceSpeed", targetingForwardSpeed);
     return targetingForwardSpeed;
+    } 
+    else {
+      return 0.0;
+    }
   }
 
 
@@ -99,7 +103,7 @@ public class LimelightDrive extends Command {
     // do the get as double here and put value into another variable which you can then put through the util function to do the deadband
     
     objSwerve.setControl(
-          drive.withVelocityX(limelight_range_proportional()).withVelocityY(dCmdLeftX).withRotationalRate(limelight_aim_proportional())
+          drive.withVelocityX(limelight_range_proportional()).withVelocityY(0.0).withRotationalRate(limelight_aim_proportional())
     );
 
     

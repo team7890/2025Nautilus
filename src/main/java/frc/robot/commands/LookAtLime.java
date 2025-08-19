@@ -70,7 +70,7 @@ public class LookAtLime extends Command {
 
 
 
-   private SwerveRequest.RobotCentric drive  = new SwerveRequest.RobotCentric()
+   private SwerveRequest.FieldCentric drive  = new SwerveRequest.FieldCentric()
   .withDeadband(0.02).withRotationalDeadband(0.02) // Add a 2% deadband 10% is CTRE Value
   .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors;
 
