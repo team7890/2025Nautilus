@@ -11,6 +11,7 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.Constants;
@@ -44,28 +45,30 @@ public class LookAtLime extends Command {
 
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
     // your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+    double dragonRotVel = LimelightHelpers.getTX("limelight-dragon") * kP;
 
     // convert to radians per second for our drive method
-    targetingAngularVelocity *= dMaxAngularRate;
+    dragonRotVel *= dMaxAngularRate;
 
     //invert since tx is positive when the target is to the right of the crosshair
-    targetingAngularVelocity *= -1.0;
+    dragonRotVel *= -1.0;
 
-    return targetingAngularVelocity;
+    double trainRotVel = LimelightHelpers.getTX("limelight-train") * kP;
+
+    // convert to radians per second for our drive method
+    trainRotVel *= dMaxAngularRate;
+
+    //invert since tx is positive when the target is to the right of the crosshair
+    trainRotVel *= -1.0;
+    
+
+    return ((dragonRotVel + trainRotVel) / 2);
   }
 
   // simple proportional ranging control with Limelight's "ty" value
   // this works best if your Limelight's mount height and target mount height are different.
   // if your limelight and target are mounted at the same or similar heights, use "ta" (area) for target ranging rather than "ty"
-  double limelight_range_proportional()
-  {    
-    double kP = .1;
-    double targetingForwardSpeed = LimelightHelpers.getTA("limelight") * kP;
-    targetingForwardSpeed *= dMaxSpeed;
-    targetingForwardSpeed *= 1.0;
-    return targetingForwardSpeed;
-  }
+ 
 
 
 
@@ -84,6 +87,7 @@ public class LookAtLime extends Command {
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(objSwerve);
+    
   }
 
   // Called when the command is initially scheduled.
@@ -96,6 +100,8 @@ public class LookAtLime extends Command {
 
     dCmdLeftX = dsDriverLeftX.getAsDouble() * dMaxSpeed;
     dCmdLeftY = dsDriverLeftY.getAsDouble() * dMaxSpeed;
+
+    SmartDashboard.putNumber("Limelight Aim", limelight_aim_proportional());
 
 
     // do the get as double here and put value into another variable which you can then put through the util function to do the deadband

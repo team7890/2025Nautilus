@@ -98,8 +98,8 @@ public class GroundPivot extends SubsystemBase {
     objSlot0.kP = 40.0; // A position error of 0.2 rotations results in 12 V output
     objSlot0.kI = 0.1; // No output for integrated error
     objSlot0.kD = 0.0; // A velocity error of 1 rps results in 0.5 V output
-    //objSlot0.GravityType = GravityTypeValue.Arm_Cosine;
-    objSlot0.GravityType = GravityTypeValue.Elevator_Static;
+    objSlot0.GravityType = GravityTypeValue.Arm_Cosine;
+    // objSlot0.GravityType = GravityTypeValue.Elevator_Static;
     objSlot0.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
 
     //voltage

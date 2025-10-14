@@ -67,6 +67,7 @@ import frc.robot.commands.AutoCommands.Auto_MoveForwardGetAlgInfrontofDSBlue;
 import frc.robot.commands.AutoCommands.Auto_MoveForwardGetAlgInfrontofDSRed;
 import frc.robot.commands.AutoCommands.Auto_MoveForwardRed;
 import frc.robot.commands.AutoCommands.BargeShoot;
+import frc.robot.commands.AutoCommands.LimelightLeft;
 // === SUBSYSTEMS === \\
 import frc.robot.subsystems.AlgaeIntake;
 // import frc.robot.subsystems.ClimbDeployer;
@@ -87,7 +88,7 @@ public class RobotContainer {
     /* Setting up bindings for necessary control of the swerve drive platform */
     // ==== 7890 make deadband much smaller than 0.1 ====
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02) // Add a 10% deadband
+            .withDeadband(MaxSpeed * 0.00).withRotationalDeadband(MaxAngularRate * 0.02) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
@@ -211,12 +212,13 @@ public class RobotContainer {
                     ()-> -objDriverXbox.getRightX(), 
                 true));
 
-        objDriverXbox.rightBumper().whileTrue(new LimelightDrive(drivetrain, MaxSpeed, MaxAngularRate, 
-                    () -> -objDriverXbox.getLeftX()));
+        objDriverXbox.rightBumper().whileTrue(new LimelightDrive(drivetrain, MaxSpeed, MaxAngularRate));
 
         objDriverXbox.leftBumper().whileTrue(new LookAtLime(drivetrain, MaxSpeed, MaxAngularRate, 
                     () -> objDriverXbox.getLeftX(), 
                     () -> objDriverXbox.getLeftY()));
+
+        objDriverXbox.axisGreaterThan(2, 0.9).whileTrue(new LimelightLeft(drivetrain, MaxSpeed, MaxAngularRate));
 
 
         // === COPILOT BUTTON BOX commands ===

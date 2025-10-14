@@ -24,10 +24,8 @@ public class LimelightDrive extends Command {
   private final CommandSwerveDrivetrain objSwerve;
   private final double dMaxSpeed;
   private final double dMaxAngularRate;
+
  
-  private final DoubleSupplier dsDriverLeftX;
- 
-  private double dCmdLeftX;
 
   private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(3);
@@ -44,15 +42,23 @@ public class LimelightDrive extends Command {
 
     // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of 
     // your limelight 3 feed, tx should return roughly 31 degrees.
-    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+    double dragonRotVel = LimelightHelpers.getTX("limelight-dragon") * kP;
 
     // convert to radians per second for our drive method
-    targetingAngularVelocity *= dMaxAngularRate;
+    dragonRotVel *= dMaxAngularRate;
 
     //invert since tx is positive when the target is to the right of the crosshair
-    targetingAngularVelocity *= -1.0;
+    dragonRotVel *= -1.0;
 
-    return targetingAngularVelocity;
+    double trainRotVel = LimelightHelpers.getTX("limelight-train") * kP;
+
+    // convert to radians per second for our drive method
+    trainRotVel *= dMaxAngularRate;
+
+    //invert since tx is positive when the target is to the right of the crosshair
+    trainRotVel *= -1.0;
+
+    return ((dragonRotVel + trainRotVel) / 2);
   }
 
   // simple proportional ranging control with Limelight's "ty" value
@@ -60,12 +66,13 @@ public class LimelightDrive extends Command {
   // if your limelight and target are mounted at the same or similar heights, use "ta" (area) for target ranging rather than "ty"
   double limelight_range_proportional()
   {   
-    if (LimelightHelpers.getTV("limelight")) {
-      double kP = 0.1;
-    double targetingForwardSpeed = (12 - LimelightHelpers.getTA("limelight")) * kP;
+    if (LimelightHelpers.getTV("limelight-dragon")) {
+      double kP = 0.08;
+    double dragonDistanceVel = (12 - LimelightHelpers.getTA("limelight-dragon")) * kP;
+    double trainDistanceVel = (12 - LimelightHelpers.getTA("limelight-train")) * kP;
     // targetingForwardSpeed *= dMaxSpeed;
-    SmartDashboard.putNumber("LimeDistanceSpeed", targetingForwardSpeed);
-    return targetingForwardSpeed;
+    SmartDashboard.putNumber("LimeDistanceSpeed", dragonDistanceVel);
+    return ((dragonDistanceVel + trainDistanceVel) / 2);
     } 
     else {
       return 0.0;
@@ -80,11 +87,10 @@ public class LimelightDrive extends Command {
   .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors;
 
   /** Creates a new TeleOpDrive. */
-  public LimelightDrive(CommandSwerveDrivetrain objSwerve_in, double dMaxSpeed_in, double dMaxAngularRate_in, DoubleSupplier dsDriverLeftX_in) {
+  public LimelightDrive(CommandSwerveDrivetrain objSwerve_in, double dMaxSpeed_in, double dMaxAngularRate_in) {
     objSwerve = objSwerve_in;
     dMaxSpeed = dMaxSpeed_in;
     dMaxAngularRate = dMaxAngularRate_in;
-    dsDriverLeftX = dsDriverLeftX_in;
     
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(objSwerve);
@@ -98,7 +104,6 @@ public class LimelightDrive extends Command {
   @Override
   public void execute() {
 
-    dCmdLeftX = dsDriverLeftX.getAsDouble() * dMaxSpeed;
 
     // do the get as double here and put value into another variable which you can then put through the util function to do the deadband
     
